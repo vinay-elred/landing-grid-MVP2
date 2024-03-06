@@ -25,7 +25,8 @@ class _GridBuilderState extends State<GridBuilder> {
   @override
   void didChangeDependencies() {
     itemWidth = originalItemWidth + crossAxisSpace.toInt();
-    crossCount = MediaQuery.of(context).size.width ~/ itemWidth;
+    final screenWidth = MediaQuery.of(context).size.width;
+    crossCount = screenWidth ~/ itemWidth;
     buildIndexs();
     super.didChangeDependencies();
   }
@@ -45,6 +46,10 @@ class _GridBuilderState extends State<GridBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth <= 0) return const CircularProgressIndicator();
+
     final gutterSpace = (crossAxisSpace * (crossCount - 1));
     final cardWidths = crossCount * originalItemWidth;
     final width = cardWidths.toDouble() + gutterSpace + 16;
