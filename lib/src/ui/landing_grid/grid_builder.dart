@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:landing_grid/src/grid_item.dart';
+import 'package:landing_grid/src/ui/landing_grid/grid_item.dart';
+import 'package:landing_grid/src/webservice/card_data_webservice.dart';
 
 class GridBuilder extends StatefulWidget {
   const GridBuilder({super.key});
@@ -57,23 +58,38 @@ class _GridBuilderState extends State<GridBuilder> {
     return Center(
       child: SizedBox(
         width: width,
-        child: MasonryGridView.builder(
-          padding: const EdgeInsets.all(8.0),
-          crossAxisSpacing: crossAxisSpace,
-          mainAxisSpacing: crossAxisSpace,
-          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossCount,
-          ),
-          itemCount: 20,
-          itemBuilder: (BuildContext context, int index) {
-            return indexs.contains(index)
-                ? const SizedBox(
-                    height: 30,
-                  )
-                : GridItem(
-                    itemHeight: itemHeight,
-                    itemWidth: itemWidth,
-                  );
+        child: FutureBuilder(
+          future: CardDataWebService().fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+
+            final dataList = snapshot.data;
+            if (dataList == null || snapshot.hasError) {
+              return const Text("No data error");
+            }
+
+            return MasonryGridView.builder(
+              padding: const EdgeInsets.all(8.0),
+              crossAxisSpacing: crossAxisSpace,
+              mainAxisSpacing: crossAxisSpace,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossCount,
+              ),
+              itemCount: dataList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return indexs.contains(index)
+                    ? const SizedBox(
+                        height: 30,
+                      )
+                    : GridItem(
+                        data: dataList[index],
+                        itemHeight: itemHeight,
+                        itemWidth: itemWidth,
+                      );
+              },
+            );
           },
         ),
       ),

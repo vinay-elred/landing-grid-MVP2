@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:landing_grid/src/home_screen.dart';
+import 'package:landing_grid/src/ui/home_screen.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

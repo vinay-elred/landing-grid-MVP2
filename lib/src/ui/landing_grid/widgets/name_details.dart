@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:landing_grid/src/model/card_data_model.dart';
 
 class NameDetails extends StatelessWidget {
-  const NameDetails({super.key});
+  const NameDetails({super.key, required this.data});
+  final CardDataModel data;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
+      children: [
         Text(
-          "Manoj Sharma",
-          style: TextStyle(
+          data.name,
+          style: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 14,
             color: Colors.white,
           ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          textAlign: TextAlign.center,
         ),
         Text(
-          "Flutter Developer",
-          style: TextStyle(
+          data.title,
+          style: const TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 10,
             color: Colors.white,
             height: 13 / 10,
           ),
         ),
-        SizedBox(height: 2),
+        const SizedBox(height: 2),
         Text(
-          "Samsung India Pvt Ltd.",
-          style: TextStyle(
+          data.company,
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 8,
             color: Colors.white,

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:landing_grid/src/model/card_data_model.dart';
 
 class UserTags extends StatelessWidget {
-  const UserTags({super.key});
+  const UserTags({super.key, required this.data});
+  final CardDataModel data;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        tag("UI / UX"),
+        tag(data.tags[0]),
         const SizedBox(width: 3),
-        tag("Flutter"),
+        tag(data.tags[1]),
       ],
     );
   }
